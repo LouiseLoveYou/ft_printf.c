@@ -6,7 +6,7 @@
 /*   By: kisella <kisella@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:43:28 by kisella           #+#    #+#             */
-/*   Updated: 2026/11/10 16:21:54 by kisella          ###   ########.fr       */
+/*   Updated: 2026/11/11 11:01:47 by kisella          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,40 @@ static int	ft_handle(const char *format, int *i, va_list *args)
 	return (ft_putchar(format[*i]));
 }
 
-int	ft_printf(const char *, ...)
+int	ft_printf(const char *format, ...)
 {
+	va_list	args;
+	int		i;
+	int		count;
+	int		ret;
+
+	i = 0;
+	count = 0;
+	va_start(args, format);
+	if (!format)
+		return (-1);
+	while (format[i] != '\0')
+	{
+		ret = ft_handle(format, &i, &args);
+		if (ret == -1)
+		{
+			va_end(args);
+			return (-1);
+		}
+		count += ret;
+		i++;
+	}
+	va_end(args);
+	return (count);
 }
+
+// int	main(void)
+// {
+// 	int	a;
+// 	int	b;
+
+// 	a = ft_printf("Hello %s, %d, %x, %c, %%\n", "42", -42, 255, 'A');
+// 	b = printf("Hello %s, %d, %x, %c, %%\n", "42", -42, 255, 'A');
+// 	printf("ft: %d | og: %d\n", a, b);
+// 	return (0);
+// }
